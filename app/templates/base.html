@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if title %}
+        {{ title }} - Microblog
+        {% else %}
+        Welcome to Microblog!
+        {% endif %}
+    </title>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li>
+                Microblog: <a href="/index">Home</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+<p>&Copy Copyright 2020 ... XXX</p>
+</footer>
+</body>
+</html>

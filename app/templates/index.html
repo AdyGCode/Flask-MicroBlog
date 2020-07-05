@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>
-        {% if title %}
-            {{ title }} - Microblog
-        {% else %}
-            Welcome to Microblog!
-        {% endif %}
-    </title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
 
     <h1>Hi, {{ user.username }}!</h1>
 
@@ -20,5 +10,4 @@
     </div>
     {% endfor %}
 
-</body>
-</html>
+{% endblock %}
