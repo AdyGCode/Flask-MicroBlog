@@ -8,6 +8,8 @@ class Config(object):
     SECRET_KEY = environ.get('SECRET_KEY') or 'you-will-never-guess'
     API_KEY = environ.get('API_KEY')
 
+    POSTS_PER_PAGE = int(environ.get('POSTS_PER_PAGE') or 3)
+
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL') \
                               or 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
