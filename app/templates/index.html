@@ -1,34 +1,44 @@
 {% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block content %}
 
 <h1>Hi, {{ current_user.username }}!</h1>
 
 {% if form %}
-
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.post.label }}<br>
-        {{ form.post(cols=32, rows=4) }}<br>
-        {% for error in form.post.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
+<div class="row">
+    <div class="col-md-6">
+        {{ render_form(form) }}
+    </div>
+</div>
 {% endif %}
 
-{% for post in posts %}
-<p>
+<ul class="list-group pt-2">
+    {% for post in posts %}
     {%include '_post.html' %}
-</p>
-{% endfor %}
+    {% endfor %}
+</ul>
 
-{% if next_url %}
-<a href="{{ next_url }}">Older posts</a>
-{% endif %}
-{% if prev_url %}
-<a href="{{ prev_url }}">Newer posts</a>
-{% endif %}
+<nav aria-label="..." class="mt-2 pt-2">
+    <ul class="pagination">
+        <li class="page-item {% if not prev_url %} disabled{% endif %}"
+            title="Newer">
+            <a class="page-link" href="{{ prev_url or '#' }}"
+               {% if not prev_url %} tabindex="-1" aria-disabled="true"
+               {% endif %}>
+                <i class="fa fa-arrow-left"></i>
+            </a>
+        </li>
+
+        <li class="page-item {% if not next_url %} disabled{% endif %}"
+            title="Older">
+            <a class="page-link" href="{{ next_url or '#' }}"
+               {% if not next_url %} tabindex="-1" aria-disabled="true"
+               {% endif %}>
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 {% endblock %}

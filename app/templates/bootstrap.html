@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block metatags %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}
+
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <title>
+        {% block title %}
+        Your page title
+        {% endblock %}
+    </title>
+</head>
+<body>
+<header>
+{% include "_navigation.html" %}
+</header>
+<main class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {# application content needs to be provided in the app_content block #}
+    {% block app_content %}{% endblock %}
+</main>
+
+<footer>
+    {% include "_footer.html" %}
+</footer>
+
+{% block scripts %}
+<!-- Optional JavaScript -->
+{{ bootstrap.load_js() }}
+{% endblock %}
+
+</body>
+</html>

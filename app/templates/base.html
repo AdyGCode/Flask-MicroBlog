@@ -1,64 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block metatags %}
+    {% endblock %}
+
     <title>
+        {% block title %}
         {% if title %}
         {{ title }} - Microblog
         {% else %}
         Welcome to Microblog!
         {% endif %}
+        {% endblock %}
     </title>
-</head>
-<body>
-<header>
-    <nav>
-        Microblog:
-        <ul>
-            <li>
-                <a href="{{ url_for('index') }}">Home</a>
-            </li>
-            {% if current_user.is_anonymous %}
-            <li>
-                <a href="{{ url_for('register') }}">Register</a>
-            </li>
-            <li>
-                <a href="{{ url_for('login') }}">Login</a>
-            </li>
-            {% else %}
-            <li>
-                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            </li>
-            <li>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            </li>
-            {% endif %}
 
-            <li><a href="{{ url_for('explore') }}">Explore</a></li>
-        </ul>
-    </nav>
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    <link href="{{url_for('static', filename='css/sticky-footer.css')}}"
+          rel="stylesheet">
+    <link href="{{url_for('static', filename='css/all.css')}}"
+          rel="stylesheet">
+    <!-- Custom Styles (when needed) -->
+    {% block styles %}
+    {% endblock %}
+
+    {% include "_favicons.html" %}
+</head>
+<body class="d-flex flex-column h-100">
+
+<header>
+    {% include "_navigation.html" %}
 </header>
 
-<main class="container">
+<main role="main" class="flex-shrink-0 mb-2 pb-5 pt-3 mt-3">
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <section>
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
-    {% endwith %}
-
-    {% block content %}
-    {% endblock %}
+        {# application content needs to be provided in the app_content block #}
+        {% block content %}{% endblock %}
+    </div>
 </main>
 
-<footer>
-    <p>&Copy Copyright 2020 ... XXX</p>
-</footer>
+    {% include "_footer.html" %}
+
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
+{{ bootstrap.load_js() }}
+<!-- Optional JavaScript -->
+{% block scripts %}
+{% endblock %}
+
 </body>
 </html>

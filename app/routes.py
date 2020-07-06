@@ -23,6 +23,7 @@ def before_request():
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
+    time_now = datetime.utcnow()
     form = PostForm()
 
     if form.validate_on_submit():
@@ -46,7 +47,8 @@ def index():
                            form=form,
                            posts=posts.items,
                            next_url=next_url,
-                           prev_url=prev_url)
+                           prev_url=prev_url,
+                           time_now=time_now)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,24 +98,28 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username):
+    time_now = datetime.utcnow()
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    posts = current_user.my_posts().paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('index', page=posts.next_num) \
+    posts = user.my_posts().paginate(
+        page, app.config['POSTS_PER_PAGE'] // 2, False)
+    next_url = url_for('user', username=user.username, page=posts.next_num) \
         if posts.has_next else None
-    prev_url = url_for('index', page=posts.prev_num) \
+    prev_url = url_for('user', username=user.username, page=posts.prev_num) \
         if posts.has_prev else None
     form = EmptyForm()
-    return render_template('profile.html', user=user, posts=posts.items,
+    return render_template('profile.html',
+                           user=user, posts=posts.items,
                            next_url=next_url, prev_url=prev_url,
-                           form=form)
+                           form=form,
+                           time_now=time_now)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
+
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
@@ -123,8 +129,7 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('profile-edit.html', title='Edit Profile',
-                           form=form)
+    return render_template('profile-edit.html', title='Edit Profile', form=form)
 
 
 @app.route('/follow/<username>', methods=['POST'])
@@ -170,6 +175,7 @@ def unfollow(username):
 @app.route('/explore')
 @login_required
 def explore():
+    time_now = datetime.utcnow()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
@@ -178,10 +184,13 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
     return render_template("index.html", title='Explore', posts=posts.items,
-                           next_url=next_url, prev_url=prev_url)
+                           next_url=next_url, prev_url=prev_url,
+                           time_now=time_now)
+
 
 from app.forms import ResetPasswordRequestForm
 from app.email import send_password_reset_email
+
 
 @app.route('/password-request', methods=['GET', 'POST'])
 def password_request():
@@ -196,7 +205,6 @@ def password_request():
         return redirect(url_for('login'))
     return render_template('password-request.html',
                            title='Reset Password', form=form)
-
 
 
 @app.route('/password-reset/<token>', methods=['GET', 'POST'])

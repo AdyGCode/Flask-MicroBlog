@@ -4,7 +4,7 @@ FLASK_RUN_PORT=5000
 
 FLASK_DEBUG=1
 
-POSTS_PER_PAGE = 3
+POSTS_PER_PAGE = 10
 
 
 SECRET_KEY=FlaskEnv-This-Is-Some-Strange-Minor-Key

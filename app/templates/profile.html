@@ -1,52 +1,90 @@
 {% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block content %}
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-img-top text-center">
+                <img src="{{ user.avatar(512) }}" class="img-fluid">
+            </div>
+            <div class="card-body">
+                <h1 class="card-title">{{ user.username }}</h1>
 
-<table>
-    <tr valign="top">
-        <td><img src="{{ user.avatar(128) }}"></td>
-        <td>
-            <h1>User: {{ user.username }}</h1>
-            {% if user.about_me %}
-            <p>{{ user.about_me }}</p>
-            {% endif %}
-            {% if user.last_seen %}
-            <p>Last seen on: {{ user.last_seen }}</p>
-            {% endif %}
+                {% if user.about_me %}
+                <p>{{ user.about_me }}</p>
+                {% endif %}
 
-            <p>Followers: {{ user.followers.count() }}.</p>
-            <p>Following: {{ user.followed.count() }}.</p>
+                <p>Followers: {{ user.followers.count() }}.</p>
+                <p>Following: {{ user.followed.count() }}.</p>
 
-            {% if user == current_user %}
-            <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
-            {% elif not current_user.is_following(user) %}
-            <p>
-            <form action="{{ url_for('follow', username=user.username) }}"
-                  method="post">
-                {{ form.hidden_tag() }}
-                {{ form.submit(value='Follow') }}
-            </form>
-            </p>
-            {% else %}
-            <p>
-            <form action="{{ url_for('unfollow', username=user.username) }}"
-                  method="post">
-                {{ form.hidden_tag() }}
-                {{ form.submit(value='Unfollow') }}
-            </form>
-            </p>
+                {% if user == current_user %}
+                <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a>
+                </p>
+                {% elif not current_user.is_following(user) %}
+                <p>
+                <form action="{{ url_for('follow', username=user.username) }}"
+                      method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.submit(value='Follow', class='btn btn-primary') }}
+                </form>
+                </p>
+                {% else %}
+                <p>
+                <form action="{{ url_for('unfollow', username=user.username) }}"
+                      method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.submit(value='Unfollow', class='btn btn-warning') }}
+                </form>
+                </p>
+                {% endif %}
+            </div>
+                {% if user.last_seen %}
+            <div class="card-footer">
+                Last seen: {{ moment(user.last_seen).format('LLL') }}
+            </div>
             {% endif %}
-        </td>
-    </tr>
-</table>
-<hr>
-{% for post in posts %}
-{% include '_post.html' %}
-{% endfor %}
-{% if next_url %}
-<a href="{{ next_url }}">Older posts</a>
-{% endif %}
-{% if prev_url %}
-<a href="{{ prev_url }}">Newer posts</a>
-{% endif %}
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-7">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h4 >Recently...</h4>
+            </div>
+            <ul class="list-group pt-2 list-group-flush no-gutters">
+                    {% for post in posts %}
+                    {%include '_post.html' %}
+                    {% endfor %}
+                </ul>
+                <nav aria-label="..." class="m-2 py-0 mb-0">
+                    <ul class="pagination">
+                        <li class="page-item {% if not prev_url %} disabled{% endif %}"
+                            title="Newer">
+                            <a class="page-link" href="{{ prev_url or '#' }}"
+                               {% if not prev_url %} tabindex="-1"
+                               aria-disabled="true"
+                               {% endif %}>
+                                <i class="fa fa-arrow-left"></i>
+                            </a>
+                        </li>
+
+                        <li class="page-item {% if not next_url %} disabled{% endif %}"
+                            title="Older">
+                            <a class="page-link" href="{{ next_url or '#' }}"
+                               {% if not next_url %} tabindex="-1"
+                               aria-disabled="true"
+                               {% endif %}>
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+        </div>
+
+    </div>
+</div>
+
+
 {% endblock %}
