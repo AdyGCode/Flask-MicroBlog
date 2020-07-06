@@ -285,3 +285,7 @@ Temporary Items
 ### Additional PyCharm Items
 
 .idea/*
+
+### Application Specific
+
+logs/**.log.**
