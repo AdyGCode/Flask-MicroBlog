@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
     <title>
         {% block title %}
         {% if title %}
-        {{ title }} - Microblog
+        {{ title }} - {{ _('MicroBlog') }}
         {% else %}
-        Welcome to Microblog!
+        Welcome to {{ _('MicroBlog') }}!
         {% endif %}
         {% endblock %}
     </title>
@@ -51,10 +51,11 @@
     </div>
 </main>
 
-    {% include "_footer.html" %}
+{% include "_footer.html" %}
 
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
+{{ moment.lang(g.locale) }}
 {{ bootstrap.load_js() }}
 <!-- Optional JavaScript -->
 {% block scripts %}

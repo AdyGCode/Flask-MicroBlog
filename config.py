@@ -20,3 +20,6 @@ class Config(object):
     MAIL_USERNAME = environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
     ADMINS = ['admin@example.com']
+
+    LANGUAGES = environ.get('LANGUAGES') or ['en', 'en_AU', 'cy_GB', 'de_DE',
+                                             'fr_FR', ]

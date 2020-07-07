@@ -4,40 +4,41 @@
             <div class="col-12 col-md">
                 <p>
                     <img height="32"
+                         class="float-left mr-3"
                          src="{{url_for('static',filename='img/microscope.svg')}}">
                     <small class="d-block mb-3 text-muted">
-                        &copy; Copyright 2020 ... XXX ...
+                        &copy; {{ _('Copyright') }} 2020 ... XXX ...
                     </small>
                 </p>
             </div>
 
             <div class="col-6 col-md">
-                <h5 class="text-light">Built using</h5>
+                <h5 class="text-light">{{ _('Built using') }}</h5>
                 <ul class="list-unstyled text-small">
                     <li>
                         <a class="text-muted" href="http://raspberrypi.org">
-                            Raspberry Pi
+                            {{ _('Raspberry Pi') }}
                         </a>
                     </li>
                     <li>
                         <a class="text-muted" href="http://python.org">
-                            Python
+                            {{ _('Python') }}
                         </a>
                         <span class="text-muted">&amp;</span>
                         <a class="text-muted" href="http://python.org">
-                            Flask
+                            {{ _('Flask') }}
                         </a>
                     </li>
                     <li>
                         <a class="text-muted" href="https://getbootstrap.com">
-                            Bootstrap HTML/CSS
+                            {{ _('Bootstrap HTML/CSS') }}
                         </a>
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-md">
-                <h5 class="text-light">About</h5>
+                <h5 class="text-light">{{ _('About') }}</h5>
                 <ul class="list-unstyled text-small">
                     <li>
                         <a class="text-muted"
@@ -45,9 +46,9 @@
                             North Metro TAFE
                         </a>
                     </li>
-                    <li><a class="text-muted" href="/">Team</a></li>
-                    <li><a class="text-muted" href="/">Locations</a></li>
-                    <li><a class="text-muted" href="/">Privacy</a></li>
+                    <li><a class="text-muted" href="/">{{ _('Team') }}</a></li>
+                    <li><a class="text-muted" href="/">{{ _('Locations') }}</a></li>
+                    <li><a class="text-muted" href="/">{{ _('Privacy') }}</a></li>
                 </ul>
             </div>
         </div>
