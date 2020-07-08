@@ -31,7 +31,7 @@ def login():
             next_page = url_for('main.index')
         return redirect(next_page)
 
-    return render_template('login.html',
+    return render_template('auth/login.html',
                            title=_('Sign In'),
                            form=form)
 

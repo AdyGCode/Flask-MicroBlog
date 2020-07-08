@@ -23,8 +23,8 @@ def before_request():
 @login_required
 def index():
     time_now = datetime.utcnow()
-    # language = request.accept_languages.best_match(app.config['LANGUAGES']) \
-    #            or "OOPS"
+    language = request.accept_languages.best_match(current_app.config['LANGUAGES']) \
+               or "OOPS"
     form = PostForm()
 
     if form.validate_on_submit():
