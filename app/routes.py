@@ -10,6 +10,7 @@ from flask import \
 from flask_babel import _, get_locale
 from flask_login import \
     current_user, login_user, login_required, logout_user
+# from guess_language import guess_language
 from werkzeug.urls import url_parse
 
 @app.before_request
@@ -25,12 +26,18 @@ def before_request():
 @login_required
 def index():
     time_now = datetime.utcnow()
-    language = request.accept_languages.best_match(app.config['LANGUAGES']) \
-               or "OOPS"
+    # language = request.accept_languages.best_match(app.config['LANGUAGES']) \
+    #            or "OOPS"
     form = PostForm()
 
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        # language = guess_language(form.post.data)
+        # if language == 'UNKNOWN' or len(language) > 5:
+        #     language = ''
+        post = Post(body=form.post.data,
+                    author=current_user,
+                    # language=language
+                    )
         db.session.add(post)
         db.session.commit()
         flash(_('Your post is now live!'))
