@@ -6,7 +6,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <a class="navbar-brand" href="{{ url_for('index') }}">
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">
         <img height="32"
              src="{{url_for('static',filename='img/microscope.svg')}}">
         {{ _('MicroBlog') }}</a>
@@ -16,12 +16,12 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
                 <a class="nav-link"
-                   href="{{ url_for('index') }}">{{ _('Home') }} <span
+                   href="{{ url_for('main.index') }}">{{ _('Home') }} <span
                         class="sr-only">({{ _('current') }})</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ url_for('explore') }}">{{ _('Explore') }}</a>
+                   href="{{ url_for('main.explore') }}">{{ _('Explore') }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled"
@@ -34,17 +34,17 @@
             {% if current_user.is_anonymous %}
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ url_for('login') }}">{{ _('Login') }}</a>
+                   href="{{ url_for('auth.login') }}">{{ _('Login') }}</a>
             </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ url_for('user', username=current_user.username) }}">{{
+                   href="{{ url_for('main.user', username=current_user.username) }}">{{
                     _('Profile') }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ url_for('logout') }}">{{ _('Logout') }}</a>
+                   href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a>
             </li>
             {% endif %}
         </ul>
