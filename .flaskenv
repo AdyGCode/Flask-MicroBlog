@@ -1,15 +1,4 @@
 FLASK_APP=microblog
-FLASK_ENV=development
-FLASK_DEBUG=1
+FLASK_ENV=production
+FLASK_DEBUG=0
 FLASK_RUN_PORT=5000
-
-POSTS_PER_PAGE = 10
-
-SECRET_KEY=FlaskEnv-This-Is-Some-Strange-Minor-Key
-API_KEY=FlaskEnv-API-Keys-Are-Special
-
-MAIL_SERVER=127.0.0.1
-MAIL_PORT=2525
-# MAIL_USE_TLS=0
-MAIL_USERNAME=Inbox-Name
-MAIL_PASSWORD=null
