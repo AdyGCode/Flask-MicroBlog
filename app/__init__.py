@@ -1,6 +1,5 @@
 from config import Config
-import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from elasticsearch import Elasticsearch
 from flask import Flask, request, current_app
 from flask_babel import Babel, lazy_gettext as _l
 from flask_bootstrap import Bootstrap
@@ -9,6 +8,8 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from logging.handlers import SMTPHandler, RotatingFileHandler
+import logging
 import os
 
 db = SQLAlchemy()
@@ -32,6 +33,10 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
+
+    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
+
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
@@ -80,3 +85,4 @@ def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
 from app import models
+
