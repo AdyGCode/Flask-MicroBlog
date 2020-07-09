@@ -25,3 +25,5 @@ class Config(object):
 
     LANGUAGES = environ.get('LANGUAGES') or ['en', 'en_AU', 'cy_GB', 'de_DE',
                                              'fr_FR', ]
+
+    ELASTICSEARCH_URL=os.environ.get('ELASTICSEARCH_URL')
