@@ -1,9 +1,10 @@
 from flask import request
+from flask_babel import _, get_locale, lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, EqualTo, Length
+from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
+
 from app.models import User
-from flask_babel import _, get_locale, lazy_gettext as _l
 
 
 class EditProfileForm(FlaskForm):
@@ -41,7 +42,7 @@ class SearchForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         if 'formdata' not in kwargs:
-            kwargs['formdata']=request.args
+            kwargs['formdata'] = request.args
         if 'csrf_enabled' not in kwargs:
             kwargs['csrf_enabled'] = False
         super(SearchForm, self).__init__(*args, **kwargs)

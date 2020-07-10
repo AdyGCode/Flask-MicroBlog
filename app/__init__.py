@@ -1,6 +1,7 @@
-from config import Config
+import logging
+import os
 from elasticsearch import Elasticsearch
-from flask import Flask, request, current_app
+from flask import current_app, Flask, request
 from flask_babel import Babel, lazy_gettext as _l
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
@@ -8,9 +9,9 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from logging.handlers import SMTPHandler, RotatingFileHandler
-import logging
-import os
+from logging.handlers import RotatingFileHandler, SMTPHandler
+
+from config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -37,7 +38,6 @@ def create_app(config_class=Config):
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
 
-
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
@@ -52,7 +52,7 @@ def create_app(config_class=Config):
             auth = None
             if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
                 auth = (
-                app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+                    app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
             secure = None
             if app.config['MAIL_USE_TLS']:
                 secure = ()
@@ -84,5 +84,5 @@ def create_app(config_class=Config):
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
-from app import models
 
+from app import models

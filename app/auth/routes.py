@@ -1,14 +1,15 @@
-from flask import  flash, g, redirect, render_template, request, url_for
-from werkzeug.urls import url_parse
+from datetime import datetime
+from flask import flash, g, redirect, render_template, request, url_for
 from flask_babel import _, get_locale
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.urls import url_parse
+
 from app import db
 from app.auth import bp
+from app.auth.email import send_password_reset_email
 from app.auth.forms import LoginForm, RegistrationForm, \
     ResetPasswordForm, ResetPasswordRequestForm
 from app.models import User
-from app.auth.email import send_password_reset_email
-from datetime import datetime
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -70,7 +71,7 @@ def password_request():
             send_password_reset_email(user)
         flash(_('Check your email for the instructions to reset your password'))
         return redirect(url_for('auth.login'))
-    return render_template('password-request.html',
+    return render_template('auth/password-request.html',
                            title=_('Reset Password'),
                            form=form)
 
@@ -88,6 +89,6 @@ def password_reset(token):
         db.session.commit()
         flash(_('Your password has been reset.'))
         return redirect(url_for('auth.login'))
-    return render_template('password-reset.html',
+    return render_template('auth/password-reset.html',
                            title=_('Password Reset'),
                            form=form)

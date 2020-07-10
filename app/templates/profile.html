@@ -26,8 +26,8 @@
                 {% elif not current_user.is_following(user) %}
                 <p>
                 <form
-                    action="{{ url_for('main.follow', username=user.username) }}"
-                      method="post">
+                        action="{{ url_for('main.follow', username=user.username) }}"
+                        method="post">
                     {{ form.hidden_tag() }}
                     {{ form.submit(value='Follow', class='btn btn-primary') }}
                 </form>
@@ -35,15 +35,15 @@
                 {% else %}
                 <p>
                 <form
-                    action="{{ url_for('main.unfollow', username=user.username) }}"
-                      method="post">
+                        action="{{ url_for('main.unfollow', username=user.username) }}"
+                        method="post">
                     {{ form.hidden_tag() }}
                     {{ form.submit(value='Unfollow', class='btn btn-warning') }}
                 </form>
                 </p>
                 {% endif %}
             </div>
-                {% if user.last_seen %}
+            {% if user.last_seen %}
             <div class="card-footer">
                 {{ _('Last seen') }}: {{ moment(user.last_seen).format('LLL') }}
             </div>
@@ -57,33 +57,33 @@
                 <h4>{{ _('Recently') }}...</h4>
             </div>
             <ul class="list-group pt-2 list-group-flush no-gutters">
-                    {% for post in posts %}
-                    {%include 'fragments/_post.html' %}
-                    {% endfor %}
-                </ul>
-                <nav aria-label="..." class="m-2 py-0 mb-0">
-                    <ul class="pagination">
-                        <li class="page-item {% if not prev_url %} disabled{% endif %}"
-                            title="Newer">
-                            <a class="page-link" href="{{ prev_url or '#' }}"
-                               {% if not prev_url %} tabindex="-1"
-                               aria-disabled="true"
-                               {% endif %}>
-                                <i class="fa fa-arrow-left"></i>
-                            </a>
-                        </li>
+                {% for post in posts %}
+                {%include 'fragments/_post.html' %}
+                {% endfor %}
+            </ul>
+            <nav aria-label="..." class="m-2 py-0 mb-0">
+                <ul class="pagination">
+                    <li class="page-item {% if not prev_url %} disabled{% endif %}"
+                        title="Newer">
+                        <a class="page-link" href="{{ prev_url or '#' }}"
+                           {% if not prev_url %} tabindex="-1"
+                           aria-disabled="true"
+                           {% endif %}>
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                    </li>
 
-                        <li class="page-item {% if not next_url %} disabled{% endif %}"
-                            title="Older">
-                            <a class="page-link" href="{{ next_url or '#' }}"
-                               {% if not next_url %} tabindex="-1"
-                               aria-disabled="true"
-                               {% endif %}>
-                                <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                    <li class="page-item {% if not next_url %} disabled{% endif %}"
+                        title="Older">
+                        <a class="page-link" href="{{ next_url or '#' }}"
+                           {% if not next_url %} tabindex="-1"
+                           aria-disabled="true"
+                           {% endif %}>
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </div>
 

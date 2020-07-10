@@ -1,5 +1,6 @@
 from flask import render_template
 from flask_babel import _
+
 from app.email import send_email
 
 
